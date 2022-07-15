@@ -22,6 +22,34 @@ namespace BreadWatch.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("BreadWatch.Entities.Budgets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("BudgetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Budgets");
+                });
+
             modelBuilder.Entity("BreadWatch.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -30,34 +58,13 @@ namespace BreadWatch.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryName")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("BreadWatch.Entities.SubCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("SubCatName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("categoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("categoryId");
-
-                    b.ToTable("SubCategory");
                 });
 
             modelBuilder.Entity("BreadWatch.Entities.Transactions", b =>
@@ -80,19 +87,14 @@ namespace BreadWatch.Migrations
                     b.Property<bool>("Income")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SubCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("userId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("SubCategoryId");
-
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
                 });
@@ -126,17 +128,17 @@ namespace BreadWatch.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "69eaa84f-62bb-4c59-aef2-7a0f5d94f3f3",
-                            ConcurrencyStamp = "df5aafd9-82b2-4933-b5a7-3d22e04a78d5",
+                            Id = "5489c726-8ead-4d52-8f39-2886c0d0570f",
+                            ConcurrencyStamp = "f80ab8c3-72e6-4eaa-9518-75e8d25b6117",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "995fa118-4e23-4811-afbe-e3c994bf7f98",
-                            ConcurrencyStamp = "8f45b569-1515-4f03-b759-171e1b9c9e23",
+                            Id = "36bd74d4-c1e1-43cd-8e5f-690717e09c36",
+                            ConcurrencyStamp = "3db99dd6-f768-4969-b1d1-9e058b01b6b2",
                             Name = "Admin",
-                            NormalizedName = "Admin"
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -324,15 +326,15 @@ namespace BreadWatch.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
-            modelBuilder.Entity("BreadWatch.Entities.SubCategory", b =>
+            modelBuilder.Entity("BreadWatch.Entities.Budgets", b =>
                 {
-                    b.HasOne("BreadWatch.Entities.Category", "category")
-                        .WithMany()
-                        .HasForeignKey("categoryId")
+                    b.HasOne("BreadWatch.Entities.Category", "Category")
+                        .WithMany("Budgets")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("category");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("BreadWatch.Entities.Transactions", b =>
@@ -343,21 +345,13 @@ namespace BreadWatch.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BreadWatch.Entities.SubCategory", "SubCategory")
+                    b.HasOne("BreadWatch.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("SubCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BreadWatch.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
-                    b.Navigation("SubCategory");
-
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -409,6 +403,11 @@ namespace BreadWatch.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BreadWatch.Entities.Category", b =>
+                {
+                    b.Navigation("Budgets");
                 });
 #pragma warning restore 612, 618
         }

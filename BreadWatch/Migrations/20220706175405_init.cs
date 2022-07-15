@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BreadWatch.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,7 +55,7 @@ namespace BreadWatch.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -169,20 +169,22 @@ namespace BreadWatch.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubCategory",
+                name: "Budgets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SubCatName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    categoryId = table.Column<int>(type: "int", nullable: false)
+                    BudgetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubCategory", x => x.Id);
+                    table.PrimaryKey("PK_Budgets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubCategory_Category_categoryId",
-                        column: x => x.categoryId,
+                        name: "FK_Budgets_Category_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -197,16 +199,15 @@ namespace BreadWatch.Migrations
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Income = table.Column<bool>(type: "bit", nullable: false),
                     Expense = table.Column<bool>(type: "bit", nullable: false),
-                    userId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    SubCategoryId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Transactions_AspNetUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_Transactions_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -215,23 +216,17 @@ namespace BreadWatch.Migrations
                         principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Transactions_SubCategory_SubCategoryId",
-                        column: x => x.SubCategoryId,
-                        principalTable: "SubCategory",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "69eaa84f-62bb-4c59-aef2-7a0f5d94f3f3", "df5aafd9-82b2-4933-b5a7-3d22e04a78d5", "User", "USER" });
+                values: new object[] { "36bd74d4-c1e1-43cd-8e5f-690717e09c36", "3db99dd6-f768-4969-b1d1-9e058b01b6b2", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "995fa118-4e23-4811-afbe-e3c994bf7f98", "8f45b569-1515-4f03-b759-171e1b9c9e23", "Admin", "Admin" });
+                values: new object[] { "5489c726-8ead-4d52-8f39-2886c0d0570f", "f80ab8c3-72e6-4eaa-9518-75e8d25b6117", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -273,9 +268,9 @@ namespace BreadWatch.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubCategory_categoryId",
-                table: "SubCategory",
-                column: "categoryId");
+                name: "IX_Budgets_CategoryId",
+                table: "Budgets",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_CategoryId",
@@ -283,14 +278,9 @@ namespace BreadWatch.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_SubCategoryId",
+                name: "IX_Transactions_UserId",
                 table: "Transactions",
-                column: "SubCategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transactions_userId",
-                table: "Transactions",
-                column: "userId");
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -311,6 +301,9 @@ namespace BreadWatch.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Budgets");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
@@ -318,9 +311,6 @@ namespace BreadWatch.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "SubCategory");
 
             migrationBuilder.DropTable(
                 name: "Category");

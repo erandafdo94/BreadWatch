@@ -1,5 +1,10 @@
+using BreadWatch.Business;
+using BreadWatch.Business.Interfaces;
 using BreadWatch.Data;
 using BreadWatch.Entities;
+using BreadWatch.Helpers;
+using BreadWatch.Repo;
+using BreadWatch.Repo.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
@@ -22,6 +27,17 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
+
+//DI
+builder.Services.AddScoped<IExpenseRepo, ExpenseRepo>();
+builder.Services.AddScoped<IExpenseManager, ExpenseCategory>();
+
+builder.Services.AddScoped<IBudgetRepo, BudgetRepo>();
+builder.Services.AddScoped<IBudgetManager, BudgetManager>();
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +48,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(c =>
+ {
+     c.AllowAnyHeader().AllowAnyMethod().WithOrigins("*");
+ });
 
 app.UseAuthorization();
 
