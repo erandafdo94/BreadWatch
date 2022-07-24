@@ -4,7 +4,7 @@ namespace BreadWatch.Business.Interfaces
 {
     public interface IBudgetManager
     {
-        void AddNewBudget(BudgetDto budget);
-        List<BudgetDto> GetBudgetsForUser(int userId);
+        Task AddNewBudget(BudgetDto budget);
+       // List<BudgetDto> GetBudgetsForUser(int userId);
     }
 }

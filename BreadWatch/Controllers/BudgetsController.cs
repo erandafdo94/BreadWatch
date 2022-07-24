@@ -17,16 +17,18 @@ namespace BreadWatch.Controllers
         }
 
         [HttpPost("addnewbugdet")]
-        public void AddNewBudget(BudgetDto budgetDto)
+        public async Task AddNewBudget(BudgetDto budgetDto)
         {
-            _budgetManager.AddNewBudget(budgetDto);
+           await _budgetManager.AddNewBudget(budgetDto);
         }
 
-        [HttpGet("getbudgetsforuser/{userId}")]
-        public List<BudgetDto> GetBudgetsForUser(int userId)
-        {
-            return _budgetManager.GetBudgetsForUser(userId);
-        }
+        //[HttpGet("getbudgetsforuser/{userId}")]
+        //public List<BudgetDto> GetBudgetsForUser(int userId)
+        //{
+        //    return _budgetManager.GetBudgetsForUser(userId);
+        //}
+
+       
 
     }
 }

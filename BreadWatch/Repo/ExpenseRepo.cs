@@ -12,9 +12,9 @@ namespace BreadWatch.Repo
         {
             _breadContext = breadContext;
         }
-        public List<Category> GetExpenseCategories()
-        {
-            return _breadContext.Category.ToList();
-        }
+        //public List<Category> GetExpenseCategories()
+        //{
+        //    return _breadContext.Category.ToList();
+        //}
     }
 }

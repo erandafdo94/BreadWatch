@@ -13,23 +13,23 @@ namespace BreadWatch.Business
         {
             _expenseRepo = expenseRepo;
         }
-        public List<ExpenseCategoryDto> GetExpenseCategories()
-        {
-            List<Category> catList = _expenseRepo.GetExpenseCategories();
+        //public List<ExpenseCategoryDto> GetExpenseCategories()
+        //{
+        //    List<Category> catList = _expenseRepo.GetExpenseCategories();
 
-            List<ExpenseCategoryDto> categoryDtoList = new List<ExpenseCategoryDto>();
+        //    List<ExpenseCategoryDto> categoryDtoList = new List<ExpenseCategoryDto>();
 
-            foreach (var cat in catList)
-            {
-                ExpenseCategoryDto catObj = new ExpenseCategoryDto
-                {
-                    Id = cat.Id,
-                    Name = cat.Name
-                };
-                categoryDtoList.Add(catObj);
-            }
+        //    foreach (var cat in catList)
+        //    {
+        //        ExpenseCategoryDto catObj = new ExpenseCategoryDto
+        //        {
+        //            Id = cat.Id,
+        //            Name = cat.Name
+        //        };
+        //        categoryDtoList.Add(catObj);
+        //    }
 
-            return categoryDtoList;
-        }
+        //    return categoryDtoList;
+        //}
     }
 }

@@ -8,18 +8,18 @@ namespace BreadWatch.Repo
 {
     public class BudgetRepo : IBudgetRepo
     {
-        private readonly BreadContext breadContext;
+        private readonly BreadContext _breadContext;
 
         public BudgetRepo(BreadContext breadContext)
         {
-            this.breadContext = breadContext;
+            this._breadContext = breadContext;
         }
-        public void AddNewBudget(Budgets budget)
+        public async Task AddNewBudget(Budgets budget)
         {
             try
             {
-                breadContext.Add(budget);
-                breadContext.SaveChanges();
+                 _breadContext.Add(budget);
+                 await _breadContext.SaveChangesAsync();
             }
             catch (Exception)
             {
@@ -27,10 +27,12 @@ namespace BreadWatch.Repo
             }
         }
 
-        public IEnumerable<Budgets> GetBudgetsForUser(int userId)
-        {
-            IEnumerable<Budgets> newBudgetList = breadContext.Budgets.Where(b => b.UserId == userId);
-            return newBudgetList;
-        }
+        //public IEnumerable<Budgets> GetBudgetsForUser(int userId)
+        //{
+        //   // IEnumerable<Budgets> newBudgetList = _breadContext.Budgets.Where(b => b.UserId == userId);
+        //    return newBudgetList;
+        //}
+
+       
     }
 }

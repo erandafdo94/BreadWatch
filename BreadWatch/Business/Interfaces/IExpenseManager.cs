@@ -4,6 +4,6 @@ namespace BreadWatch.Business.Interfaces
 {
     public interface IExpenseManager
     {
-        List<ExpenseCategoryDto> GetExpenseCategories();
+       // List<ExpenseCategoryDto> GetExpenseCategories();
     }
 }

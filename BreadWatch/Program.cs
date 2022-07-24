@@ -1,6 +1,7 @@
 using BreadWatch.Business;
 using BreadWatch.Business.Interfaces;
 using BreadWatch.Data;
+using BreadWatch.Data.Entities;
 using BreadWatch.Entities;
 using BreadWatch.Helpers;
 using BreadWatch.Repo;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 
@@ -21,7 +23,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BreadContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
-builder.Services.AddIdentity<User, IdentityRole>()
+//builder.Services.AddIdentityCore<IdentityUser<Guid>, IdentityRole<Guid>>>(options => options.SignIn.RequireConfirmedAccount = true)
+//        .AddRoles<>()
+//        .AddEntityFrameworkStores<BreadContext>();
+
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<BreadContext>();
 
 builder.Services.AddAuthentication();
@@ -35,7 +41,6 @@ builder.Services.AddScoped<IExpenseManager, ExpenseCategory>();
 
 builder.Services.AddScoped<IBudgetRepo, BudgetRepo>();
 builder.Services.AddScoped<IBudgetManager, BudgetManager>();
-
 
 
 var app = builder.Build();

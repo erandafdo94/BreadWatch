@@ -17,7 +17,12 @@ namespace BreadWatch.Business
             _budgetRepo = budgetRepo;
             _mapper = mapper;
         }
-        public void AddNewBudget(BudgetDto budget)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="budget"></param>
+        public async Task AddNewBudget(BudgetDto budget)
         {
            // var bud = _mapper.Map<Budgets>(budget);
 
@@ -25,32 +30,38 @@ namespace BreadWatch.Business
             {
                 BudgetName = budget.BudgetName,
                 CategoryId = budget.CategoryId,
-                UserId = 1,
-                Amount = budget.Amount
+             //   UserId = ,
+                //Amount = budget.Amount
             };
 
            // bud.Category.Name = "Dating";
-            _budgetRepo.AddNewBudget(budgetForRepo);
+            await _budgetRepo.AddNewBudget(budgetForRepo);
         }
 
-        public List<BudgetDto> GetBudgetsForUser(int userId)
-        {
-            var budgetList = _budgetRepo.GetBudgetsForUser(userId);
-            List <BudgetDto> budgetDtoList = new List <BudgetDto>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        //public List<BudgetDto> GetBudgetsForUser(int userId)
+        //{
+        //    var budgetList = _budgetRepo.GetBudgetsForUser(userId);
+        //    List <BudgetDto> budgetDtoList = new List <BudgetDto>();
 
-            foreach (var item in budgetList)
-            {
-                BudgetDto budNew = new BudgetDto
-                {
-                    BudgetName = item.BudgetName,
-                    CategoryId = item.CategoryId,
-                    Amount = item.Amount
-                };
+        //    foreach (var item in budgetList)
+        //    {
+        //        BudgetDto budNew = new BudgetDto
+        //        {
+        //            BudgetName = item.BudgetName,
+        //            CategoryId = item.CategoryId,
+        //            Amount = item.Amount
+        //        };
 
-                budgetDtoList.Add(budNew);
-            }
+        //        budgetDtoList.Add(budNew);
+        //    }
 
-            return budgetDtoList;
-        }
+        //    return budgetDtoList;
+        //}
+
     }
 }

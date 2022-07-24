@@ -16,10 +16,10 @@ namespace BreadWatch.Controllers
             this.expenseManager = expenseManager;
         }
 
-        [HttpGet("GetExpenseCategories")]
-        public List<ExpenseCategoryDto> GetExpenseCategories()
-        {
-            return expenseManager.GetExpenseCategories();
-        }
+        //[HttpGet("GetExpenseCategories")]
+        //public List<ExpenseCategoryDto> GetExpenseCategories()
+        //{
+        //    return expenseManager.GetExpenseCategories();
+        //}
     }
 }

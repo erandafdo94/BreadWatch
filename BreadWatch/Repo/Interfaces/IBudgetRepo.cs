@@ -5,7 +5,7 @@ namespace BreadWatch.Repo.Interfaces
 {
     public interface IBudgetRepo
     {
-        void AddNewBudget(Budgets budget);
-        IEnumerable<Budgets> GetBudgetsForUser(int userId);
+        Task AddNewBudget(Budgets budget);
+      //  IEnumerable<Budgets> GetBudgetsForUser(int userId);
     }
 }
