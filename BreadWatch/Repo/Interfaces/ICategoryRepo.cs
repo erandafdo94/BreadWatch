@@ -2,8 +2,8 @@
 
 namespace BreadWatch.Repo.Interfaces
 {
-    public interface IExpenseRepo
+    public interface ICategoryRepo
     {
-       // List<Category> GetExpenseCategories();
+        List<Category> GetExpenseCategories();
     }
 }

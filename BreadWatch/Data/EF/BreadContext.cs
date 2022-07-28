@@ -23,17 +23,21 @@ namespace BreadWatch.Data
           //  SeedData.Initialize(builder);
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationRole>()
-               .HasData(
-                   new ApplicationRole { Id = Guid.NewGuid(), Name = "User", NormalizedName = "USER" },
-                   new ApplicationRole { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" }
-               );
+            //builder.Entity<ApplicationRole>()
+            //   .HasData(
+            //       new ApplicationRole { Id = Guid.NewGuid(), Name = "User", NormalizedName = "USER" },
+            //       new ApplicationRole { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" }
+            //   );
 
             builder.Entity<Budgets>(entity =>
             {
                 entity.HasOne(c => c.Category)
                     .WithMany(b => b.Budgets)
                     .HasForeignKey(cat => cat.CategoryId);
+
+                entity.HasOne(c => c.User)
+                   .WithMany(b => b.Budgets)
+                   .HasForeignKey(cat => cat.UserGuid);
             });
 
             builder.Entity<Transactions>(entity =>

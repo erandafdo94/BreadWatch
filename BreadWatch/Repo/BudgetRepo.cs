@@ -27,12 +27,11 @@ namespace BreadWatch.Repo
             }
         }
 
-        //public IEnumerable<Budgets> GetBudgetsForUser(int userId)
-        //{
-        //   // IEnumerable<Budgets> newBudgetList = _breadContext.Budgets.Where(b => b.UserId == userId);
-        //    return newBudgetList;
-        //}
+        public IEnumerable<Budgets> GetBudgetsForUser(Guid userId)
+        {
+            IEnumerable<Budgets> newBudgetList = _breadContext.bread_Budgets.Where(b => b.UserGuid == userId);
+            return newBudgetList;
+        }
 
-       
     }
 }

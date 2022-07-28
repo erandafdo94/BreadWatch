@@ -1,5 +1,6 @@
 ﻿using BreadWatch.Business.Interfaces;
 using BreadWatch.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace BreadWatch.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BudgetsController : ControllerBase
     {
         private readonly IBudgetManager _budgetManager;
@@ -22,13 +24,11 @@ namespace BreadWatch.Controllers
            await _budgetManager.AddNewBudget(budgetDto);
         }
 
-        //[HttpGet("getbudgetsforuser/{userId}")]
-        //public List<BudgetDto> GetBudgetsForUser(int userId)
-        //{
-        //    return _budgetManager.GetBudgetsForUser(userId);
-        //}
-
-       
-
+        [HttpGet("getbudgetsforuser/{userId}")]
+        public List<BudgetDto> GetBudgetsForUser(string userId)
+        {
+            var userGuid = new Guid("2A3FF16C-031D-40E3-2B35-08DA6DB67E4B");
+            return _budgetManager.GetBudgetsForUser(userGuid);
+        }
     }
 }

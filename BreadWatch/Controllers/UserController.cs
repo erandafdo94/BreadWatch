@@ -1,4 +1,5 @@
-﻿using BreadWatch.Dto;
+﻿using BreadWatch.Business.Interfaces;
+using BreadWatch.Dto;
 using BreadWatch.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,23 +10,31 @@ namespace BreadWatch.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITokenManager tokenManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public UserController(UserManager<ApplicationUser> userManager,
+            ITokenManager tokenManager)
         {
             _userManager = userManager;
+            this.tokenManager = tokenManager;
         }
 
+        
         [HttpPost("Login")]
-        public async Task<ActionResult<ApplicationUser>> Login(LoginDto loginDto)
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.UserName);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
                 return Unauthorized();
 
-            return user;
+            return new UserDto
+            {
+                Email = user.Email,
+                Token = await tokenManager.GenerateTokenAsync(user)
+            };
         }
 
         [HttpPost("Register")]

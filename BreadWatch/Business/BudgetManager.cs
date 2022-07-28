@@ -24,17 +24,16 @@ namespace BreadWatch.Business
         /// <param name="budget"></param>
         public async Task AddNewBudget(BudgetDto budget)
         {
-           // var bud = _mapper.Map<Budgets>(budget);
+            //var bud = _mapper.Map<Budgets>(budget);
 
             Budgets budgetForRepo = new Budgets
             {
                 BudgetName = budget.BudgetName,
                 CategoryId = budget.CategoryId,
-             //   UserId = ,
-                //Amount = budget.Amount
+                UserGuid = new Guid("2A3FF16C-031D-40E3-2B35-08DA6DB67E4B"),
+                Amount = budget.Amount
             };
 
-           // bud.Category.Name = "Dating";
             await _budgetRepo.AddNewBudget(budgetForRepo);
         }
 
@@ -43,25 +42,25 @@ namespace BreadWatch.Business
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        //public List<BudgetDto> GetBudgetsForUser(int userId)
-        //{
-        //    var budgetList = _budgetRepo.GetBudgetsForUser(userId);
-        //    List <BudgetDto> budgetDtoList = new List <BudgetDto>();
+        public List<BudgetDto> GetBudgetsForUser(Guid userId)
+        {
+            var budgetList = _budgetRepo.GetBudgetsForUser(userId);
+            List<BudgetDto> budgetDtoList = new List<BudgetDto>();
 
-        //    foreach (var item in budgetList)
-        //    {
-        //        BudgetDto budNew = new BudgetDto
-        //        {
-        //            BudgetName = item.BudgetName,
-        //            CategoryId = item.CategoryId,
-        //            Amount = item.Amount
-        //        };
+            foreach (var item in budgetList)
+            {
+                BudgetDto budNew = new BudgetDto
+                {
+                    BudgetName = item.BudgetName,
+                    CategoryId = item.CategoryId,
+                    Amount = item.Amount
+                };
 
-        //        budgetDtoList.Add(budNew);
-        //    }
+                budgetDtoList.Add(budNew);
+            }
 
-        //    return budgetDtoList;
-        //}
+            return budgetDtoList;
+        }
 
     }
 }
